@@ -360,8 +360,7 @@ jobs:
           
           sed -i 's|^kernel\.string=.*|kernel.string=OnePlus Ace3V KSUN + SUSFS Kernel by CodeWithRKG|' anykernel.sh
           sed -i 's|^do\.devicecheck=.*|do.devicecheck=0|' anykernel.sh
-          sed -i 's|^device\.name1=.*|device.name1=CPH2661|' anykernel.sh
-          sed -i 's|^device\.name2=.*|device.name2=CPH2663|' anykernel.sh
+          sed -i 's|^device\.name1=.*|device.name1=PJF110|' anykernel.sh
           sed -i '/ui_print " " "  -> ksu_supported: $ksu_supported"/i \
           ui_print "Features:"\
           ui_print "-> KernelSU-Next-Official"\
