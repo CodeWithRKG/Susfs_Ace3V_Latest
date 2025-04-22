@@ -359,8 +359,8 @@ jobs:
           cd ./AnyKernel3
           
           sed -i 's|^kernel\.string=.*|kernel.string=OnePlus Ace3V KSUN + SUSFS Kernel by CodeWithRKG|' anykernel.sh
-          sed -i 's|^do\.devicecheck=.*|do.devicecheck=0|' anykernel.sh
-          sed -i 's|^device\.name1=.*|device.name1=PJF110|' anykernel.sh
+          sed -i 's|^do\.devicecheck=.*|do.devicecheck=1|' anykernel.sh
+          sed -i 's|^device\.name1=.*|device.name1=PJF110.*|' anykernel.sh
           sed -i '/ui_print " " "  -> ksu_supported: $ksu_supported"/i \
           ui_print "Features:"\
           ui_print "-> KernelSU-Next-Official"\
@@ -372,14 +372,6 @@ jobs:
           ui_print "-> Magic Mount Support"\
           ui_print "-> CONFIG_TMPFS_XATTR Support for Mountify"\
           ui_print "-> TCP Congestion Algorithm: BBR enabled"' anykernel.sh
-
-          # Run perl command to modify UTS_VERSION
-          
-          DATESTR=$(date -u)
-          perl -pi -e "s{UTS_VERSION=\"\\\$\\(echo \\\$UTS_VERSION \\\$CONFIG_FLAGS \\\$TIMESTAMP \\| cut -b -\\\$UTS_LEN\\)\"}{UTS_VERSION=\"#1 SMP PREEMPT $DATESTR\"}" ./common/scripts/mkcompile_h
-          perl -pi -e "s{UTS_VERSION=\"\\\$\\(echo \\\$UTS_VERSION \\\$CONFIG_FLAGS \\\$TIMESTAMP \\| cut -b -\\\$UTS_LEN\\)\"}{UTS_VERSION=\"#1 SMP PREEMPT $DATESTR\"}" ./msm-kernel/scripts/mkcompile_h
-          
-          find . -type f -exec sed -i 's/\(make\s\+-C[^\n]*\)\s\+/\1 -j$(nproc) /g' {} +
           
           # Zip the files in the AnyKernel3 directory with a new naming convention
           # Generate Indian Standard Time (IST)
