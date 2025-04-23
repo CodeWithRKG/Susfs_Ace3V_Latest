@@ -363,7 +363,7 @@ jobs:
           sed -i 's|^device\.name1=.*|device.name1=PJF110|' anykernel.sh
           sed -i 's|^device\.name2=.*|device.name2=PJF110CN|' anykernel.sh
           sed -i 's|^device\.name3=.*|device.name3=PJF110EEA|' anykernel.sh
-          sed -i '/ui_print " " "  -> KSU_Supported: $ksu_supported"/i \
+          sed -i '/ui_print " " "  -> ksu_supported: $ksu_supported"/i \
           ui_print "Features:"\
           ui_print "-> KernelSU-Next-Official"\
           ui_print "-> SUSFS"\
