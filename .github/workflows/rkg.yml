@@ -365,7 +365,7 @@ jobs:
           sed -i 's|^device\.name3=.*|device.name3=PJF110EEA|' anykernel.sh
           sed -i '/ui_print " " "  -> ksu_supported: $ksu_supported"/i \
           ui_print "Features:"\
-          ui_print "-> KernelSU-Next-Official"\
+          ui_print "-> KernelSU Next"\
           ui_print "-> SUSFS v1.5.7"\
           ui_print "-> Manual Hooks for Better Hiding"\
           ui_print "-> Wireguard Support"\
