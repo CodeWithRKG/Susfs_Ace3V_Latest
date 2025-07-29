@@ -11,21 +11,30 @@ on:
         description: 'Do you want to create a release?'
         required: true
         type: boolean
-        default: true
+        default: false
+      ksun_branch:
+        description: "Choose KernelSU Next Branch"
+        required: true
+        type: choice
+        options:
+          - stable
+          - next
+        default: next
 
 jobs:
-  build-batch-1: 
+  build-batch-1: # Non Bazel Builds
+    name: build-batch-1 (${{ matrix.model }}, ${{ matrix.soc }}, ${{ matrix.branch }}, ${{ matrix.manifest }}, ${{ matrix.android_version }}, ${{ matrix.kernel_version }}, ${{ inputs.ksun_branch }})
     strategy:
       fail-fast: false
       matrix:
         include:          
-          - model: OP-Ace3V
+          - model: OP-ACE3V
             soc: pineapple
             branch: oneplus/sm7675
             manifest: oneplus_ace_3v_v.xml
             android_version: android14
             kernel_version: "6.1"
-    uses: ./.github/workflows/rkg.yml
+    uses: ./.github/workflows/main.yml
     secrets: inherit
     with:
       model: ${{ matrix.model }}
@@ -34,6 +43,7 @@ jobs:
       manifest: ${{ matrix.manifest }}
       android_version: ${{ matrix.android_version }}
       kernel_version: ${{ matrix.kernel_version }}
+      ksun_branch: ${{ inputs.ksun_branch }}
 
   trigger-release:
     needs:
@@ -47,7 +57,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       RELEASE_NAME: "*Susfs Patched Kernels With KernelSU Next and BBR*"
       RELEASE_NOTES: |
-        This release contains KernelSU Next and SUSFS v1.5.7
+        This release contains KernelSU Next and SUSFS v1.5.9
 
         Kernel Flasher: 
         -> https://github.com/fatalcoder524/KernelFlasher
@@ -63,9 +73,14 @@ jobs:
 
         Features:
         [+] KernelSU-Next
-        [+] SUSFS v1.5.7
-        [+] BBR
-        [+] Mountify Support
+        [+] SUSFS v1.5.9
+        [+] Wireguard Support
+        [+] Maphide LineageOS Detections
+        [+] Futile Maphide for jit-zygote-cache Detections
+        [+] Magic Mount Support
+        [+] Manual Hooks [scope_min_manual_hooks_v1.4]
+        [+] CONFIG_TMPFS_XATTR Support [Mountify Support]
+        [+] BBR v1 Support
 
     steps:
       - name: Checkout code
@@ -75,7 +90,7 @@ jobs:
         run: |
             LATEST_TAG=$(gh api repos/$REPO_OWNER/$REPO_NAME/tags --jq '.[0].name')
             if [ -z "$LATEST_TAG" ]; then
-              LATEST_TAG="v1.5.7-r0"
+              LATEST_TAG="v1.5.9-r0"
             fi
             NEW_TAG=$(echo "$LATEST_TAG" | awk -F'-r' '{suffix=$2; if (!suffix) suffix=0; suffix++; printf "%s-r%d", $1, suffix}')
             echo "New tag: $NEW_TAG"
